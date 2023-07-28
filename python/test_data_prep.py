@@ -18,19 +18,15 @@ def m4a_to_wav(path, filename):
 
 def allToWav(path):
   directory = os.fsencode(path)
-  replace_path = path+"old_files/";
   for file in os.listdir(directory):
       filename = os.fsdecode(file)
-      if filename.endswith(".mp3"):
+      if os.path.isdir(path+filename):
+        print("Found subdir in "+filename)
+        allToWav(path+filename+"/")
+      elif filename.endswith(".mp3"):
           mp3_to_wav(path, filename)
-          if not os.path.exists(replace_path):
-            os.mkdir(replace_path)
-          os.replace(path+filename, replace_path+filename)
       elif filename.endswith(".m4a"):
         m4a_to_wav(path, filename)
-        if not os.path.exists(replace_path):
-            os.mkdir(replace_path)
-        os.replace(path+filename, replace_path+filename)
         
 
 
@@ -146,10 +142,10 @@ def data_aug(pos_path, neg_path):
 
 ## Delete silence in audio file based on rel volumne differences in frames
 # --> silence_tresh=audio.dBFS - X
-def del_sil(file):
-  filename = os.fsdecode(file)
+def del_sil(filepath):
+  filename = os.fsdecode(filepath)
   audio = AudioSegment.from_wav(filename)
-  sil = silence.detect_nonsilent(audio, min_silence_len=50, silence_thresh=audio.dBFS-9)
+  sil = silence.detect_nonsilent(audio, min_silence_len=50, silence_thresh=audio.dBFS-7)
   print("dBFS: "+str(audio.dBFS))
   print("Silence: "+str(sil))
   audio_r = None
@@ -158,14 +154,17 @@ def del_sil(file):
       audio_r = audio[r[0]:r[1]]
     else:
       audio_r +=audio[r[0]:r[1]]
-  audio_r.export(file[:-4]+"_tf.wav")
+  audio_r.export(filepath[:-4]+"_tf.wav")
 
 # delete silence in all files of path
-def def_sil_all(path_to_dir):
+def del_sil_all(path_to_dir):
   directory = os.fsencode(path_to_dir)
   replace_path = path_to_dir+"with_silence/"
   for file in os.listdir(directory):
       filename = os.fsdecode(file)
+      if os.path.isdir(path_to_dir+filename) and filename is not replace_path:
+        print("Found subdir in "+filename)
+        del_sil_all(path_to_dir+filename+"/")
       if filename.endswith(".wav"):
         del_sil(path_to_dir+filename)
         if not os.path.exists(replace_path):
@@ -179,11 +178,20 @@ def def_sil_all(path_to_dir):
 # maybe more for finetuning
 #data_aug(pos_path, neg_path):
 
-# 2. detect and delete all silence sequences in files 
+# 2. allToWav
+# Careful! This methods scrapes through all subdirs and deletes .mp3 files
+#allToWav()
+
+# 3. detect and delete all silence sequences in files 
 # files with silence are placed inside "with_silence" dir 
 # the processed ones stay inside the given one
-def_sil_all("data/en_ds_v1/")
+# Careful! This methods scrapes through all subdirs
+#del_sil_all("data/en_ds_v1/Deutschland/")
 
-# 3. create 100ms slices, save them in the current dir
+# 4. create 100ms slices, save them in the current dir
 # place input files in "sliced_soure_files"
-test_data_prep("data/en_ds_v1/", 0.100)
+#test_data_prep("data/en_ds_v1/", 0.100)
+
+## Sandbox testing
+allToWav("data/helsfyr2_prepared/Deutschland/")
+del_sil_all("data/helsfyr2_prepared/Deutschland/")
