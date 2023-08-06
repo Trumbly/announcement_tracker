@@ -1,2 +1,4 @@
 /data
 .vs
+docker-compose.yml
+stack.yml
