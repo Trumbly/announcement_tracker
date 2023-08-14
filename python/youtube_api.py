@@ -5,28 +5,43 @@ import googleapiclient.errors
 from dataclasses import dataclass
 from typing import List, Dict
 import datetime
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, JSON
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+
 
 @dataclass
 class Thumbnails:
-    #youtube parameter
     url: str
     width: int
     height: int
 
-
 @dataclass
-class Item:
-    kind: str
-    etag: str
-    videoId: str
+class Snippet:
     publishedAt: datetime
     channelId: str
     title: str
     description: str
-    thumbnails: Dict[str, Thumbnails]
+    #thumbnails: Dict[str, Thumbnails]
     channelTitle: str
     liveBroadcastContent: str
-    publishTime: str
+    
+
+@dataclass
+class searchRessourceId:
+    kind: str
+    videoId: str
+    channelId: str
+    playlistId: str
+    snippet: List[Snippet]
+
+
+@dataclass
+class SearchResource:
+    kind: str
+    etag: str
+    id: List[searchRessourceId]
+
     
 
 @dataclass
@@ -40,9 +55,10 @@ class Response:
     kind: str
     etag: str
     nextPageToken: str
+    #prevPageToken: str #TODO prevPageToken seems to be missing in API response
     regionCode: str
-    pageInfo: PageInfo
-    items: List[Item]
+    pageInfo: List[PageInfo]
+    items: List[SearchResource]
 
 
 @dataclass
