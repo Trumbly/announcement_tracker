@@ -3,20 +3,23 @@ from dotenv import load_dotenv
 
 from sqlalchemy import create_engine, ForeignKey, Column, String, Integer, CHAR
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, Mapped
+from sqlalchemy.orm import sessionmaker, Mapped, mapped_column, relationship
+from typing import List, Optional
+from dataclasses import dataclass
 
 Base = declarative_base()
 
+@dataclass
 class Person(Base):
     __tablename__ = "people"
-    ssn = Column("ssn", Integer, primary_key=True)
-    firstname = Column("firstname", String)
-    lastname = Column("lastname", String)
-    gender = Column("gender", CHAR)
-    age = Column("age", Integer)
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    firstname: Mapped[str] = mapped_column(String)
+    lastname: Mapped[str] = mapped_column(String)
+    gender: Mapped[chr] = mapped_column(CHAR)
+    age: Mapped[int] = mapped_column(Integer)
+    things: Mapped[List["Thing"]] = relationship(back_populates="owner", cascade="all, delete-orphan")
 
-    def __init__(self, ssn, firstname, lastname, gender, age):
-        self.ssn=ssn
+    def __init__(self, firstname, lastname, gender, age):
         self.firstname=firstname
         self.lastname = lastname
         self.gender = gender
@@ -24,9 +27,10 @@ class Person(Base):
 
 class Thing(Base):
     __tablename__ = "things"
-    id = Column("id", Integer, primary_key=True, autoincrement=True)
-    description = Column("description", String)
-    owner = Column(Integer, ForeignKey("people.ssn"))
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    description: Mapped[str] = mapped_column(String)
+    owner_id: Mapped[int] = mapped_column(ForeignKey("people.id"))
+    owner: Mapped["Person"] = relationship(back_populates="things")
 
     def __init__(self, description, owner):
         self.description = description
@@ -46,9 +50,11 @@ Base.metadata.create_all(bind=engine)
 Session = sessionmaker(bind=engine)
 session = Session()
 
-person = Person(1234567, "Max", "Mustermann", "m", "29")
-thing = Thing("test", 1234567)
+
+person = Person("Hannes", "ladendorf", "m", "29")
+thing = Thing("python Super power book", owner=person)
 session.add(person)
-session.add(thing)
+
+# session.add(thing)
 session.commit()
 session.close()
