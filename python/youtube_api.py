@@ -90,9 +90,11 @@ class Search:
     def getSearchParameter(self):
         self_attrs = vars(self)
         not_none_params = {k:v for k, v in self_attrs.items() if v is not None}
-        #TODO remove params from not_none_params
-        #del not_none_params["id"]
-        #del not_none_params["response"]
+        #remove params from not_none_params
+        if 'id' in not_none_params:
+            del not_none_params['id']
+        if 'repsonse' in not_none_params:
+            del not_none_params['response']
         return not_none_params
 
     
