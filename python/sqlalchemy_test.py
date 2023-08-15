@@ -12,7 +12,7 @@ Base = declarative_base()
 @dataclass
 class Person(Base):
     __tablename__ = "people"
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    pk: Mapped[int] = mapped_column(name="id", primary_key=True, autoincrement=True)
     firstname: Mapped[str] = mapped_column(String)
     lastname: Mapped[str] = mapped_column(String)
     gender: Mapped[chr] = mapped_column(CHAR)
