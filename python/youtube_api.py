@@ -5,13 +5,22 @@ import googleapiclient.errors
 from dataclasses import dataclass
 from typing import List, Dict, Optional
 import datetime
-from sqlalchemy import create_engine, Integer, String, DateTime, ForeignKey, Column
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, Mapped, mapped_column, DeclarativeBase, Relationship, relationship
+from sqlalchemy import create_engine, Integer, String, DateTime, ForeignKey, Column, event
+# from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, Mapped, mapped_column, declarative_base, DeclarativeBase, Relationship, relationship, mapper, Mapper, scoped_session
 
-#Base = declarative_base()
-class Base(DeclarativeBase):
-    pass
+load_dotenv() #load environment variables from .env file
+
+# Create a PostgreSQL database connection
+POSTGRE_HOST = os.environ.get("POSTGRE_HOST")
+POSTGRE_PORT = os.environ.get("POSTGRE_PORT")
+POSTGRE_USER = os.environ.get("POSTGRE_USER")
+POSTGRE_PASSWORD = os.environ.get("POSTGRE_PASSWORD")
+engine = create_engine(f'postgresql+psycopg2://{POSTGRE_USER}:{POSTGRE_PASSWORD}@{POSTGRE_HOST}:{POSTGRE_PORT}/youtube', echo=True)
+Base = declarative_base()
+Session = sessionmaker(bind=engine)
+session = Session()
+
 
 # @dataclass
 # class Thumbnails(Base):
@@ -86,7 +95,7 @@ class PageInfo(Base):
     resultsPerPage = Column(Integer)
 
     response_fk = Column(Integer, ForeignKey("responses.pk")) #: Mapped[int] = mapped_column(ForeignKey("responses.pk"))
-    response = Relationship("Response", back_populates="pageInfos")#: Mapped["Response"] = relationship(back_populates="pageInfos")
+    response = Relationship("Response", back_populates="pageInfo")#: Mapped["Response"] = relationship(back_populates="pageInfos")
     
     def __repr__(self) -> str:
         return (f"PageInfo(totalResults={self.totalResults}, resultsPerPage={self.resultsPerPage})")
@@ -108,26 +117,19 @@ class Response(Base):
     nextPageToken = Column(String)
     # prevPageToken = Column(String) #TODO prevPageToken seems to be missing in API response
     regionCode = Column(String)
-    pageInfos = Relationship("PageInfo", back_populates="response")#: Mapped[List["PageInfo"]] = relationship(back_populates="response") #List[PageInfo]
+    pageInfo = Relationship("PageInfo", back_populates="response", uselist=False)#: Mapped[List["PageInfo"]] = relationship(back_populates="response") #List[PageInfo]
     # items: Mapped[List["SearchResource"]] = relationship(back_populates="response")#Relationship("SearchResource", back_populates="response")#List[SearchResource]
 
     def __repr__(self):
-        return (f"Response(kind={self.kind}, etag={self.etag}, nextPageToken={self.nextPageToken}, regionCode={self.regionCode}, pageInfos={self.pageInfos})")
+        return (f"Response(kind={self.kind}, etag={self.etag}, nextPageToken={self.nextPageToken}, regionCode={self.regionCode}, pageInfo={self.pageInfo})")
 
     def __init__(self, kind, etag, nextPageToken, regionCode, pageInfo, items):
         self.kind = kind
         self.etag = etag
         self.nextPageToken = nextPageToken
         self.regionCode = regionCode
-        self.pageInfo = pageInfo
+        self.pageInfo = PageInfo(**pageInfo) #for pi in pageInfo]
         self.items = items
-        print(self)
-    
-    def __post_init__(self): #https://www.youtube.com/watch?v=Fu0swCLAJ8E
-        self.pageInfos = [PageInfo(**pageInfo) for pageInfo in self.pageInfos]
-        print(self)
-    #     session.add(self)
-
 
 
 @dataclass
@@ -184,18 +186,6 @@ class Search:
 
     
     def execute(self):
-        load_dotenv() #load environment variables from .env file
-
-        # Create a PostgreSQL database connection
-        POSTGRE_HOST = os.environ.get("POSTGRE_HOST")
-        POSTGRE_PORT = os.environ.get("POSTGRE_PORT")
-        POSTGRE_USER = os.environ.get("POSTGRE_USER")
-        POSTGRE_PASSWORD = os.environ.get("POSTGRE_PASSWORD")
-        engine = create_engine(f'postgresql+psycopg2://{POSTGRE_USER}:{POSTGRE_PASSWORD}@{POSTGRE_HOST}:{POSTGRE_PORT}/youtube', echo=True)
-        Base.metadata.create_all(bind=engine)
-        Session = sessionmaker(bind=engine)
-        session = Session()
-
         #Execute youtube search 
         GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
         youtube = googleapiclient.discovery.build(serviceName='youtube', version='v3', developerKey=GOOGLE_API_KEY)
@@ -204,12 +194,12 @@ class Search:
         request_response = search_request.execute()
         self.response = Response(**request_response)
 
-
+        # Persists in SQL session
         session.add(self.response)
         session.commit()
-        session.close()
 
-        
 
+Base.metadata.create_all(bind=engine)
 search = Search(q="airport ambiance noise", type = "video", eventType = "completed")
 search.execute()
+session.close()
