@@ -1,3 +1,4 @@
 /data
 .vs
 .env
+__pycache__*

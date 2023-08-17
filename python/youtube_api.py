@@ -232,10 +232,3 @@ class Search(Base):
 
 
 Base.metadata.create_all(bind=engine)
-#TODO steer search
-search = Search(part="snippet", q="airport ambiance noise", type = "video", eventType = "completed")
-session.add(search)
-search.execute()
-
-session.commit()
-session.close()
