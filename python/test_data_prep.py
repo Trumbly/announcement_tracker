@@ -1,7 +1,6 @@
 import os
 from pydub import AudioSegment, silence
 import random
-from matplotlib import pyplot as plt
 
 def mp3_to_wav(path, filename):
   print(path+filename)
@@ -177,13 +176,14 @@ def def_sil_all(path_to_dir):
 # no data augmentation at this point, the given helsfyr2 files
 # already contain a good amount of noise
 # maybe more for finetuning
-#data_aug(pos_path, neg_path):
+data_aug(pos_path, neg_path)
 
 # 2. detect and delete all silence sequences in files 
 # files with silence are placed inside "with_silence" dir 
 # the processed ones stay inside the given one
-def_sil_all("data/en_ds_v1/")
+#def_sil_all("data/en_ds_v1/")
 
 # 3. create 100ms slices, save them in the current dir
 # place input files in "sliced_soure_files"
-test_data_prep("data/en_ds_v1/", 0.100)
+test_data_prep("/Users/annikaschilk/Documents/techlabs/", 5)
+
