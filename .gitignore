@@ -1,4 +1,5 @@
 /data
 .vs
 .env
+myenv
 __pycache__*
