@@ -2,10 +2,10 @@ import os
 from pydub import AudioSegment, silence
 import random
 from matplotlib import pyplot as plt
+import shutil
 
 def mp3_to_wav(path, filename):
-  print(path+filename)
-  mp3 = AudioSegment.from_mp3(path+filename)
+  mp3 = AudioSegment.from_file(path+filename, format="mp3")
   exp_filename = filename[:-3] + "wav"
   mp3.export(path + exp_filename, format="wav")
   os.remove(path + filename)
@@ -13,7 +13,6 @@ def mp3_to_wav(path, filename):
 def m4a_to_wav(path, filename):
   mp3 = AudioSegment.from_file(path+filename)
   exp_filename = filename[:-3] + "wav"
-  print(exp_filename)
   mp3.export(path + exp_filename, format="wav")
 
 def allToWav(path):
@@ -21,7 +20,6 @@ def allToWav(path):
   for file in os.listdir(directory):
       filename = os.fsdecode(file)
       if os.path.isdir(path+filename):
-        print("Found subdir in "+filename)
         allToWav(path+filename+"/")
       elif filename.endswith(".mp3"):
           mp3_to_wav(path, filename)
@@ -39,7 +37,6 @@ def slice_many_to_one(path, filename):
     sil = silence.detect_nonsilent(audio, min_silence_len=50, silence_thresh=-40)
     sil = [((start/1000),(stop/1000)) for start,stop in sil] #convert to sec
 
-    print(sil)
 
     for i, a in enumerate(sil):
       x,y = a
@@ -77,7 +74,6 @@ def create_slices(path, filename, sice_size):
     while slice_1 < audio.duration_seconds:
       audio_slice = audio[slice_0*1000:slice_1*1000]
       audio = audio[slice_1*1000:]
-      print("Saving to: " + path+fn_wo_ed+"_slice_"+str(slice_count+1)+".wav")
       audio_slice.export(path+fn_wo_ed+"_slice_"+str(slice_count+1)+".wav",format="wav")
       slice_count+=1
   else:
@@ -94,11 +90,11 @@ def slice_dir(path, slice_size):
   replace_path = path+"sliced_source_files/"
   for file in os.listdir(directory):
       filename = os.fsdecode(file)
-      if filename.endswith(".wav"):
+      if os.path.isdir(path+filename):
+        slice_dir(path+filename+"/", slice_size)
+      elif filename.endswith(".wav"):
         create_slices(path, filename, slice_size)
-        if not os.path.exists(replace_path):
-            os.mkdir(replace_path)
-        os.replace(path+filename, replace_path+filename)
+        os.remove(path+filename)
 
 
 ## data pipeline to prepare data for our model
@@ -126,12 +122,10 @@ def data_aug(pos_path, neg_path):
     overlay_file = None
     while curr_rd_num not in taken_rd_nums and not overlay_file.endswith(".wav"):
       curr_rd_num = int(random.uniform(0, n_len))
-      print("Found number: "+curr_rd_num)
       if curr_rd_num not in taken_rd_nums:
         taken_rd_nums.append(curr_rd_num)
       overlay_file = n_dir[curr_rd_num]
 
-    print("Proceeding with this number and file")
 
     neg_file = AudioSegment.from_wav(neg_path+n_dir[int(curr_rd_num)])
     pos_file = AudioSegment.from_wav(pos_path+p_dir[int(i)])
@@ -142,19 +136,33 @@ def data_aug(pos_path, neg_path):
 
 ## Delete silence in audio file based on rel volumne differences in frames
 # --> silence_tresh=audio.dBFS - X
-def del_sil(filepath):
-  filename = os.fsdecode(filepath)
-  audio = AudioSegment.from_wav(filename)
-  sil = silence.detect_nonsilent(audio, min_silence_len=50, silence_thresh=audio.dBFS-7)
-  print("dBFS: "+str(audio.dBFS))
-  print("Silence: "+str(sil))
+def del_sil(path, file):
+  filename = os.fsdecode(path+file)
+  audio = AudioSegment.from_file(filename)
+  no_sil = silence.detect_nonsilent(audio, min_silence_len=50, silence_thresh=audio.dBFS-9)
+  sil = silence.detect_silence(audio, min_silence_len=50, silence_thresh=audio.dBFS-9)
   audio_r = None
-  for r in sil:
+  audio_neg = None
+  for r in no_sil:
     if audio_r is None:
       audio_r = audio[r[0]:r[1]]
     else:
       audio_r +=audio[r[0]:r[1]]
-  audio_r.export(filepath[:-4]+"_tf.wav")
+
+  for r in sil:
+    if audio_neg is None:
+      audio_neg = audio[r[0]:r[1]]
+    else:
+      audio_neg += audio[r[0]:r[1]]
+
+
+  if audio_r is not None:
+    audio_r.export(path+file[:-4]+"_tf.wav", format="wav")
+  neg_path = path+"negatives/"
+  if audio_neg is not None:
+    if not os.path.exists(neg_path):
+      os.mkdir(neg_path)
+    audio_neg.export(neg_path+"neg_"+file, format="wav")
 
 # delete silence in all files of path
 def del_sil_all(path_to_dir):
@@ -163,13 +171,40 @@ def del_sil_all(path_to_dir):
   for file in os.listdir(directory):
       filename = os.fsdecode(file)
       if os.path.isdir(path_to_dir+filename) and filename is not replace_path:
-        print("Found subdir in "+filename)
         del_sil_all(path_to_dir+filename+"/")
-      if filename.endswith(".wav"):
-        del_sil(path_to_dir+filename)
-        if not os.path.exists(replace_path):
-          os.mkdir(replace_path)
-        os.replace(path_to_dir+filename, replace_path+filename)
+      if filename.endswith(".wav") and not filename.endswith("tf.wav") and not filename.startswith("neg"):
+        del_sil(path_to_dir,filename)
+        #if not os.path.exists(replace_path):
+        #  os.mkdir(replace_path)
+        #os.replace(path_to_dir+filename, replace_path+filename)
+        os.remove(path_to_dir+filename)
+
+# merges negs into one folder
+# currently cleans data structure
+def merge_negs(path, destination):
+  directory = os.fsencode(path)
+  if not os.path.exists(destination):
+    os.mkdir(destination)
+  for file in os.listdir(directory):
+      filename = os.fsdecode(file)
+      if os.path.isdir(path+filename):
+        merge_negs(os.fsdecode(path+filename+"/"),destination)
+        # delete sliced source files
+        if filename == "sliced_source_files":
+          newpath = os.fsencode(path+filename+"/")
+          for delfile in os.listdir(newpath):
+            delfile = os.fsdecode(delfile)
+            filename = os.fsdecode(filename)
+            os.remove(path+filename+"/"+delfile)
+          os.rmdir(path+filename+"/")
+          # merges negatives into one big dir and delete old
+        if filename == "negatives":
+          for audiofile in os.listdir(path+filename+"/"):
+            if audiofile.endswith(".wav"):
+              os.replace(path+filename+"/"+audiofile, destination+audiofile)
+          #os.rmdir(path+filename+"/")
+          shutil.rmtree(path+filename+"/")
+
 
 
 # 1. data augmentation with pos and neg files to overlay
@@ -185,7 +220,7 @@ def del_sil_all(path_to_dir):
 # 3. detect and delete all silence sequences in files 
 # files with silence are placed inside "with_silence" dir 
 # the processed ones stay inside the given one
-# Careful! This methods scrapes through all subdirs
+# Careful! This methods scrapes through all subdirs and removes the ones with silence
 #del_sil_all("data/en_ds_v1/Deutschland/")
 
 # 4. create 100ms slices, save them in the current dir
@@ -193,5 +228,9 @@ def del_sil_all(path_to_dir):
 #test_data_prep("data/en_ds_v1/", 0.100)
 
 ## Sandbox testing
-allToWav("data/helsfyr2_prepared/Deutschland/")
-del_sil_all("data/helsfyr2_prepared/Deutschland/")
+allToWav("data/toWavFAST/")
+#allToWav("data/people talking/")
+#del_sil_all("data/helsfyr2_with_9_dbfs/")
+#slice_dir("data/street ambience/", 5)
+#slice_dir("data/people talking/", 5)
+#merge_negs("data/helsfyr2_with_9_dbfs/", "data/helsfyr2_with_9_dbfs/neg/")
