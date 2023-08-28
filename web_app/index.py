@@ -28,6 +28,7 @@ def load_model():
     return model
 
 def load_wav_16k_mono(path):
+    st = time.time()
     # Load encoded wav file
     file_contents = tf.io.read_file(path)
     # Decode wav (tensors by channels)
@@ -37,22 +38,33 @@ def load_wav_16k_mono(path):
     sample_rate = tf.cast(sample_rate, dtype=tf.int64)
     # Goes from 44100Hz to 16000hz - amplitude of the audio signal
     wav = tfio.audio.resample(wav, rate_in=sample_rate, rate_out=16000)
+    et = time.time()
+    print("Loading wav mono processing time: "+str((et-st)*1000))
     return wav
 
 def predictBlob(path, model):
+    st = time.time()
     wav = load_wav_16k_mono(path)
     spectogram = createSpectro(wav)
-    return model.predict(np.array( [spectogram,]))
+    st = time.time()
+    prediction = model.predict(np.array( [spectogram,]))
+    et = time.time()
+    print("Prediction time: "+str((et-st)*1000))
+    return prediction
 
 def saveBlob(socketId, audioBlob):
+    st = time.time()
     # Load blob
     filename = str(socketId) + str(time.time()) + ".wav"
     filepath = os.path.join("data/", filename)
     with open(filepath, 'wb') as f: 
         f.write(audioBlob)
+    et = time.time()
+    print("Savinf blob processing time: "+str((et-st)*1000))
     return filepath
 
 def createSpectro(wav):
+    st = time.time()
     wav = wav[:1600]
     zero_padding_size = tf.zeros([1600] - tf.shape(wav)[0], dtype=tf.float32)
     wav = tf.concat([zero_padding_size, wav],0)
@@ -60,11 +72,14 @@ def createSpectro(wav):
     spectrogram = tf.signal.stft(wav, frame_length=320, frame_step=32)
     spectrogram = tf.abs(spectrogram)
     spectrogram = tf.expand_dims(spectrogram, axis=2)
+    et = time.time()
+    print("Create spectro processing time: "+str((et-st)*1000))
     return spectrogram
 
 
 # returns cached predictions of client session and current run
 def cachePredictions(socketId, dt, result,path):
+    st = time.time()
     dt = str(dt)
     
     # prepare struct
@@ -75,6 +90,8 @@ def cachePredictions(socketId, dt, result,path):
     # add actual data
     client_chache[socketId]["data"][dt]["predictions"].append(str(result[0][0]))
     client_chache[socketId]["data"][dt]["path"].append(str(path))
+    et = time.time()
+    print("caching processing time: "+str((et-st)*1000))
     return client_chache[socketId]["data"][dt]
 
 
@@ -82,6 +99,7 @@ def cachePredictions(socketId, dt, result,path):
 # returns a list of tuples with start and end indexes of the cachedPrediciton list
 # usage_treshold: minimum secs of detected announcement
 def detectAnnouncement(cachedPredictions, pred_threshold, announ_thresheld, usage_treshold, end_padding):
+    st = time.time()
     startIndex = -1
     endIndex = -1
     indexList = []
@@ -109,6 +127,8 @@ def detectAnnouncement(cachedPredictions, pred_threshold, announ_thresheld, usag
                     indexList.append([startIndex, endIndex+end_padding])
                 startIndex = -1
                 endIndex = -1
+    et = time.time()
+    print("Detect announcement processing time: "+str((et-st)*1000))
     return indexList
 
 # delete all cached data from sid (files + metadata)
@@ -134,6 +154,7 @@ def delSidRunData(sid, metaData = False):
 
 
 def combAnonuncFiles(sid, cachedPredictions, predAnnouncResults):
+    st = time.time()
     combinedFiles = []
     # we may have multiple predictions in one run, so loop over em
     for i, pred in enumerate(predAnnouncResults):
@@ -153,6 +174,8 @@ def combAnonuncFiles(sid, cachedPredictions, predAnnouncResults):
         combinedAudio.export(filepath,format="wav")
         # save filename for llm
         combinedFiles.append(filepath)
+    et = time.time()
+    print("Combining Files processing time: "+str((et-st)*1000))
     return combinedFiles
 
 
@@ -168,6 +191,25 @@ def applyLLM(sid, filepaths):
             print('Sorry.. run again...')
     return texts
 
+#if received audios are bigger than 0.1s, slice and queue them
+def queueBlobs(path):
+    st = time.time()
+    queue = []
+    audio = AudioSegment.from_wav(path)
+    while audio.duration_seconds > 0.1:
+        print("need to queue! Audio lengths: "+str(audio.duration_seconds))
+        sliced_audio = audio[0:100]
+        new_path = path[:-3] + "_slice_"+str(len(queue)+1)+".wav"
+        sliced_audio.export(new_path,format="wav")
+        queue.append(new_path)
+        audio = audio[1000:]
+    # dont forget the last part
+    new_path = path[:-3] + "_slice_"+str(len(queue)+2)+".wav"
+    audio.export(new_path,format="wav")
+    queue.append(new_path)
+    et = time.time()
+    print("Queueing processing time: "+str((et-st)*1000))
+    return queue
 
         
 
@@ -214,20 +256,25 @@ def api(socketId, audioBlob):
 def api(socketId, audioBlob, dt):
     st = time.time()
     # save blob from bytes
-    path = saveBlob(socketId, audioBlob)
-    # predict single blob
-    result = predictBlob(path, model_const)
-    # cache prediction for client session and run with the result and file path
-    cachedPredictions = cachePredictions(socketId, dt, result, path)
+    incoming_blob_path = saveBlob(socketId, audioBlob)
+    # queue if audio blob > 1600 samples
+    queue = queueBlobs(incoming_blob_path)
+    for path in queue:
+        # predict single blob
+        result = predictBlob(path, model_const)
+        # cache prediction for client session and run with the result and file path
+        cachedPredictions = cachePredictions(socketId, dt, result, path)
     # check in cummulated predictions if announcement can be detected
     predAnnouncResults = detectAnnouncement(cachedPredictions["predictions"], 0.1 , 5, 2, 10)
     # when announcement detect, combine files and make one out of i
-    announcFiles = combAnonuncFiles(socketId, cachedPredictions, predAnnouncResults)
+    #announcFiles = combAnonuncFiles(socketId, cachedPredictions, predAnnouncResults)
     # give announcement files to LLM to return announcement text
-    announcTexts = applyLLM(socketId, announcFiles)
-    socketio.emit("prediction_result",str(announcTexts), room=socketId)
-    et = time.time()
-    print("Overall processing time: "+str((et-st)*1000))
+    #announcTexts = applyLLM(socketId, announcFiles)
+    et1 = time.time()
+    socketio.emit("prediction_result",str(predAnnouncResults), room=socketId)
+    et2 = time.time()
+    print("Processing time: "+str((et1-st)*1000))
+    print("Processing + sending time: "+str((et2-st)*1000))
 
 @socketio.on("stop")
 def stop(socketId):
