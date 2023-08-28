@@ -16,6 +16,14 @@ def m4a_to_wav(path, filename):
   print(exp_filename)
   mp3.export(path + exp_filename, format="wav")
 
+#TODO not tested, add to allToWave
+#TODO why not one function using AudioSegment.from_file for all audio formats?
+def webm_to_wav(path, filename):
+  webm = AudioSegment.from_file(path+filename)
+  exp_filename = os.path.splitext(filename)[0] + ".wav"
+  print(filename)
+  webm.export(path, exp_filename, format="wav")
+
 def allToWav(path):
   directory = os.fsencode(path)
   replace_path = path+"old_files/";
