@@ -3,11 +3,12 @@
 <html lang="en">
 
 <head>
+    <link rel="stylesheet" href="../static/styles/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Announcement detector MVP</title>
-    <meta name="description" content="Basic template">
-    <meta name="author" content="Autore sicuramente">
+    <meta name="description" content="Announcement detection MVP">
+    <meta name="author" content="Maximilian Noelle-Wying">
 </head>
 
 <body>
@@ -63,9 +64,18 @@
             await recordAudio.stopRecording()
         }
     </script>
-    <p>test</p>
-    <button onclick="record()">Record</button>
-    <button onclick="stop()">Stop</button>
+    <h1>Announcement detection</h1>
+    <div id="main_window">
+        <h2>Mic prediction</h2>
+        <button onclick="record()">Record</button>
+        <button onclick="stop()">Stop</button>
+        <br><br>
+        <h2>File prediction</h2>
+        <form action="/file_prediction" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" />
+            <input type="submit" value="Upload">
+        </form>
+        <p>API endpoint: /file_prediction</p>
+    </div>
 </body>
-
 </html>

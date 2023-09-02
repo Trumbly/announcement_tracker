@@ -3,6 +3,7 @@ from pydub import AudioSegment, silence
 import random
 from matplotlib import pyplot as plt
 import shutil
+import numpy as np
 
 def mp3_to_wav(path, filename):
   mp3 = AudioSegment.from_file(path+filename, format="mp3")
@@ -228,9 +229,12 @@ def merge_negs(path, destination):
 #test_data_prep("data/en_ds_v1/", 0.100)
 
 ## Sandbox testing
-allToWav("data/toWavFAST/")
-#allToWav("data/people talking/")
-#del_sil_all("data/helsfyr2_with_9_dbfs/")
+#allToWav("../data/helsfyr2_with_9_dbfs/")
+#allToWav("../data/new_neg2/")
+#del_sil_all("../data/helsfyr2_with_9_dbfs/")
 #slice_dir("data/street ambience/", 5)
-#slice_dir("data/people talking/", 5)
-#merge_negs("data/helsfyr2_with_9_dbfs/", "data/helsfyr2_with_9_dbfs/neg/")
+#slice_dir("../data/new_neg2/", 5)
+#merge_negs("../data/helsfyr2_with_9_dbfs/", "../data/helsfyr2_with_9_dbfs/neg/")
+
+hist = np.load("../data/history.npy", allow_pickle=True)
+print(hist)
