@@ -52,7 +52,8 @@ def main():
     create_pos_dataset("/Users/annikaschilk/Documents/techlabs/")
     create_neg_dataset("/Users/annikaschilk/Documents/techlabs/overlays_mono/")
 
-    # data used in this model: https://colab.research.google.com/drive/1r2EFf-oF5TG4EeE4RLaLxPdFRnPoJsYh?usp=sharing
+    # dataset on GoogleDrive: https://drive.google.com/drive/folders/1hJTJIgtlROs-rDhFBvvo1E4lkUryEcCO?usp=drive_link
+    # data used for this model: https://colab.research.google.com/drive/1r2EFf-oF5TG4EeE4RLaLxPdFRnPoJsYh?usp=sharing
     # result: more promising approaches were continued
 
 if __name__ == '__main__':
