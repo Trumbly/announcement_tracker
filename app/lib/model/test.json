@@ -1,0 +1,140 @@
+[
+    {uid: 2082d274-a4a6-48f3-bb36-adbc2d0fdfb1, predictions: [
+            {uid: a649c8da-8f19-4179-adeb-021ccac889cf, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945628.6294148.wav, value: 0.000008014539162104484, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 4a85f01b-a371-467c-a025-d0230f4c84aa, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945628.7340162.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: ded5d938-397f-4518-8b09-ec8e0dbae020, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945628.8134518.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 720e5c37-cad5-4f6a-b3ca-d7bb2040a816, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945628.8988051.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 69b7c95b-a93c-4e09-b964-0bcba2be5477, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945628.9744968.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 328d6b78-dff3-4219-a62c-41c269f7ed17, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945629.054232.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 49ade2e1-5ee9-4a03-bc2b-a6812de472b3, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945629.1290789.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 109d8033-2466-4c61-949d-9074ac8f7f37, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945629.2075598.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: fdcfc2f4-a318-4d5f-a630-94e58d770570, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945629.2902482.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 4dd8a14a-9204-4c9a-be67-9f928ed81931, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945629.3725085.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 26e846fd-cbea-475a-b0b2-d6b41b41cc81, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945629.4470224.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: c04b8c19-ae4d-4f84-8fcb-5feeb26d6af4, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945629.5220158.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            }
+        ], filePath: , start: 2023-09-17 10: 13: 32.102445, end: 2023-09-17 10: 13: 32.102445
+    },
+    {uid: 06c543f5-a55f-48af-8bbd-9ba73927be37, predictions: [
+            {uid: 6bcd98ed-9dba-46a5-8d49-383b15b41b14, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945629.596334.wav, value: 0.00006942068284843117, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 8a38e0ab-ebe3-4f27-a554-95e70f9c6c79, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945629.678432.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 6558f8c6-f775-4191-9241-4f834f6728a7, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945629.7785392.wav, value: 0.9999427199363708, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: b7e4a09d-618a-4204-9a4c-d5ab048125a8, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945629.852924.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 4578c01b-202f-4708-a112-7cd97089b827, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945629.9331276.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 0219f0c9-320c-4cdb-99f3-78e464d69df7, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945630.0138037.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 11841c8c-be33-4e8f-818a-f0966c49c00b, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945630.0880675.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: da138a60-99d7-4a74-a7a5-72bbf81d6eeb, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945630.163718.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 7f692b47-6d77-44fa-9ec4-56a44922dcd5, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945630.2387137.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            }
+        ], filePath: , start: 2023-09-17 10: 13: 32.102445, end: 2023-09-17 10: 13: 32.102445
+    },
+    {uid: cf60daaf-7f80-4758-a7d3-29d5263f061f, predictions: [
+            {uid: 4a822d8c-bd91-482b-a72e-55191912cc17, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945632.4008298.wav, value: 0.000030160508686094545, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: e5922aa6-8bf8-471d-a48c-a20a9dec8b60, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945632.4916577.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 43308fe6-3633-49ab-b2e4-cd0f7f88cd4e, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945632.575674.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: d3481049-70da-46c7-8036-526b5f71a654, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945632.664067.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: c4858d78-ea56-491f-b969-3fa48de6e02a, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945632.7447069.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 87a4ccee-5a30-4fc9-9d00-a8fb8f05da48, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945632.8332105.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 2de85fa1-e6e2-4866-bc37-914c20d93478, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945632.9147527.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: e6bbbdc9-c1cc-44d4-8f50-8f960bb2f7d7, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945632.9982448.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 1bd74840-78c1-446a-8235-09e7a4a17724, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945633.0939605.wav, value: 0.9999298453330994, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: abf2dd30-9226-456f-870b-6aaab224bbdb, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945633.1823597.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 096c7609-3622-41a5-a37c-85c25300a01a, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945633.258737.wav, value: 0.7956071496009827, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 21934f97-2b35-452a-94c4-19926dbdbf6c, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945633.3509495.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 0d6e46aa-612c-40bc-b697-e4803484120a, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945633.4267874.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 503c7c93-ed87-458b-ab50-69e7b7868af9, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945633.5164459.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: dd9dcdcf-6bec-4355-9cc4-0db1892a1c2d, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945633.5968196.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 8fbf1c8f-7c03-4e4c-a05a-cfcfed2773fa, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945633.6909723.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: b202f1eb-1a06-4896-83a3-36ac65910ad6, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945633.7761066.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: bab8d1b2-ad72-423d-8223-df0a088cd45a, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945633.8595393.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 15a47753-7d49-4960-b11f-a5c6ced02d49, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945633.9412377.wav, value: 0.9916692972183228, receivedAt: 2023-09-17 10: 13: 32.102445
+            }
+        ], filePath: , start: 2023-09-17 10: 13: 32.102445, end: 2023-09-17 10: 13: 32.102445
+    },
+    {uid: 8078ab48-b547-4cc7-8a5a-5949cbbf26e5, predictions: [
+            {uid: b042a93a-ca68-4adc-a43d-1913adbc99b3, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945647.471844.wav, value: 0.000003111938667643699, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: f293f165-ce1a-40ec-a3dc-c555f9d6ff26, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945647.5524952.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: cece00e3-4b82-4b64-8c44-a2532ef13c4c, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945647.638634.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 3fa3abdc-8518-4744-a65d-a698d1036571, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945647.7226095.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 15e9b414-4f17-4cb0-8e3a-36f090960e03, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945647.8049893.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 9b56ea86-8f30-4193-8457-0cc553031cba, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945647.8831854.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 005ff333-4d19-41ab-9719-d3f06daa7eb9, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945647.9736428.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: da7f6cd8-8017-4824-9836-c1d8fe698975, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945648.0520306.wav, value: 0.9976214170455933, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 6dd37fa8-adc8-4756-99c6-9725652e99ec, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945648.151697.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: f50a4f56-e6da-4f64-8dae-d7258aba15d5, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945648.236052.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: b100c2b4-b996-4d61-9679-974817c73f31, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945648.3208966.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 6a9e53a1-92ba-4582-ba3e-22cb44567561, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945648.4003708.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 4d9305d0-65cc-4086-a7e6-c471ef4cd0ac, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945648.5000083.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 000cad4e-d173-4bfa-8b12-e5cc119e435c, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945648.5889244.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 8cbd34c4-9107-4a09-9487-0300129ca6d2, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945648.6791823.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 319d44f0-63be-4556-97e8-eac63f05b236, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945648.7574189.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 553e238b-ad8d-436b-a2d8-48bcfbdb84dd, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945648.8373616.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: d657ef20-b707-4f80-93f1-c2ec4e99951f, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945648.920572.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: ed76c3bf-b189-460b-b52d-66f3b1793c77, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945649.0071256.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 2d8afbbb-96d0-4822-9e18-7d3febccd23f, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945649.1003003.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 8c66dc3e-9db8-422f-acff-cf79e7f4f07f, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945649.1814368.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: cc8f8108-1c34-4cd7-9fbf-d862923c8db2, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945649.2634566.wav, value: 0.7948356866836548, receivedAt: 2023-09-17 10: 13: 32.102445
+            },
+            {uid: 1cb8eb41-efa4-4959-8e0e-3d35d20f6e51, filePath: api/data/vO3kYKzFRxBbx9WUAAAD1694945649.352213.wav, value: 1, receivedAt: 2023-09-17 10: 13: 32.102445
+            }
+        ], filePath: , start: 2023-09-17 10: 13: 32.102445, end: 2023-09-17 10: 13: 32.102445
+    }
+]
