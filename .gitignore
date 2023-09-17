@@ -1,7 +1,7 @@
 /data
 web_app/data
-web_app/model
 web_app/.venv
 web_app/__pycache__
 web_app/test.py
 web_app/server.py
+web_app/api/data/

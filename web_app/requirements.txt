@@ -1,0 +1,8 @@
+tensorflow==2.12.0
+tensorflow-io==0.32.0
+flask
+flask_socketio
+pydub
+eventlet
+gevent
+openai-whisper

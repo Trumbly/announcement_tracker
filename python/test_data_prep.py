@@ -23,7 +23,7 @@ def allToWav(path):
       if os.path.isdir(path+filename):
         allToWav(path+filename+"/")
       elif filename.endswith(".mp3"):
-          mp3_to_wav(path, filename)
+        mp3_to_wav(path, filename)
       elif filename.endswith(".m4a"):
         m4a_to_wav(path, filename)
         
@@ -229,12 +229,18 @@ def merge_negs(path, destination):
 #test_data_prep("data/en_ds_v1/", 0.100)
 
 ## Sandbox testing
-#allToWav("../data/helsfyr2_with_9_dbfs/")
+allToWav("../data/toWavFAST/")
 #allToWav("../data/new_neg2/")
 #del_sil_all("../data/helsfyr2_with_9_dbfs/")
-#slice_dir("data/street ambience/", 5)
+slice_dir("../data/toWavFAST/", 5)
 #slice_dir("../data/new_neg2/", 5)
 #merge_negs("../data/helsfyr2_with_9_dbfs/", "../data/helsfyr2_with_9_dbfs/neg/")
 
-hist = np.load("../data/history.npy", allow_pickle=True)
-print(hist)
+#hist = np.load("../web_app/api/mls/model_6_small_1f_8020_AUG/history.npy", allow_pickle=True)
+#hist = np.load("../web_app/api/mls/model_4_big/history.npy", allow_pickle=True)
+#hist = np.load("../web_app/api/mls/model_2_dropout/history.npy", allow_pickle=True)
+#print(hist)
+#plt.plot(hist.item()["val_loss"])
+#plt.plot(hist.item()["loss"])
+#plt.show()
+#print(hist)
